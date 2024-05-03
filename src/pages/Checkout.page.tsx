@@ -6,6 +6,7 @@ import ComponentBox from '../components/ComponentBox.component';
 import { DEFAULT_NEW_CARD_DATA, DEFAULT_PAYMENT_METHODS } from '../Constants';
 import FormAddNewCard from '../components/FormAddNewCard.component';
 import { NewCardData, PaymentMethodData } from '../types';
+import ValidateCardStart from '../components/ValidateCardStart.component';
 
 enum CheckoutState {
     SELECT_CARD,
@@ -18,7 +19,7 @@ enum CheckoutState {
 
 
 export default function PageCheckout() {
-    const [currentState, setCurrentState] = useState<CheckoutState>(CheckoutState.SELECT_CARD);
+    const [currentState, setCurrentState] = useState<CheckoutState>(CheckoutState.VALIDATE_CARD);
     const [paymentMethods, setPaymentMethods] = useState<PaymentMethodData[]>(DEFAULT_PAYMENT_METHODS);
     const [formData, setFormData] = useState<NewCardData>(DEFAULT_NEW_CARD_DATA);
     function changeState(state: CheckoutState) {
@@ -41,13 +42,21 @@ export default function PageCheckout() {
         changeState(CheckoutState.SELECT_CARD);
     }
 
+    function startValidation(cardIndex: number) {
+        console.log(cardIndex);
+        setCurrentState(CheckoutState.VALIDATE_CARD);
+    }
+
     return (
         <PageDefault>
             <div style={{ height: 94 }}></div>
             {
                 currentState == CheckoutState.SELECT_CARD &&
-                <ComponentBox>
-                    <PaymentMethodList paymentMethods={paymentMethods} />
+                <ComponentBox style={{ height: 510 }}>
+                    <PaymentMethodList
+                        paymentMethods={paymentMethods}
+                        onValidateClick={startValidation}
+                    />
                     <AddNewCardButton style={{
                         marginTop: 20,
                         marginBottom: 20
@@ -58,7 +67,7 @@ export default function PageCheckout() {
             }
             {
                 currentState == CheckoutState.INSERT_CARD_DATA &&
-                <ComponentBox>
+                <ComponentBox style={{ height: 510 }}>
                     <FormAddNewCard
                         formData={formData}
                         setFormData={(data) => setFormData(data)}
@@ -73,8 +82,8 @@ export default function PageCheckout() {
             }
             {
                 currentState == CheckoutState.VALIDATE_CARD &&
-                <ComponentBox>
-
+                <ComponentBox style={{ minHeight: 510 }}>
+                    <ValidateCardStart backClick={() => changeState(CheckoutState.SELECT_CARD)} />
                 </ComponentBox >
             }
             {/* <Modal content={<p>Teste</p>} /> */}

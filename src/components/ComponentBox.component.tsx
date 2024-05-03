@@ -5,11 +5,12 @@ import styled from "styled-components";
 
 type ComponentBoxProps = {
     children?: React.ReactNode;
+    style?: React.CSSProperties;
 };
 
-export default function ComponentBox({ children }: ComponentBoxProps) {
+export default function ComponentBox({ children, style }: ComponentBoxProps) {
     return (
-        <ComponentBoxContainer>
+        <ComponentBoxContainer style={style}>
             {children}
         </ComponentBoxContainer>
     );
@@ -28,4 +29,5 @@ const ComponentBoxContainer = styled.div`
     flex-direction: column;
     align-items: center;
     position: relative;
+    overflow-y: auto;
 `;

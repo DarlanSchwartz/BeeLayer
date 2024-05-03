@@ -6,16 +6,17 @@ import ComponentBoxHeader from './ComponentBoxHeader.mini';
 
 type PaymentMethodListData = {
     paymentMethods: PaymentMethodData[];
+    onValidateClick: (methodIndex: number) => void;
 };
 
-export default function PaymentMethodList({ paymentMethods }: PaymentMethodListData) {
+export default function PaymentMethodList({ paymentMethods, onValidateClick }: PaymentMethodListData) {
     return (
         <>
             <ComponentBoxHeader title='Formas de pagamento' />
             <MethodsContainer>
                 {
-                    paymentMethods.map(method => {
-                        return <PaymentMethod data={method} />;
+                    paymentMethods.map((method, index) => {
+                        return <PaymentMethod data={method} onValidateClick={() => onValidateClick(index)} />;
                     })
                 }
             </MethodsContainer>
@@ -28,5 +29,6 @@ const MethodsContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 20px;
+    margin-top: 20px;
 `;
 

@@ -18,6 +18,7 @@ const PaymentMethodHeader = styled.div`
     align-items: center;
     position: relative;
     height: 80px;
+    flex-shrink: 0;
     h1{
         font-weight: 600;
         font-size: 20px;

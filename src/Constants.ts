@@ -13,16 +13,16 @@ export const DEFAULT_PAYMENT_METHODS = [
         name: "Cartão de crédito Master",
         icon: "/mastercard.svg",
         ownerName: "Antonio Grudez",
-        isMain: true,
+        isMain: false,
         isSelected: true,
         isValidated: false
     },
     {
         final: "Final **** **** **** 4572",
         name: "Cartão de crédito Master",
-        icon: "/mastercard.svg",
+        icon: "/visa.svg",
         ownerName: "Antonio Grudez",
-        isMain: true,
+        isMain: false,
         isSelected: true,
         isValidated: false
     },
