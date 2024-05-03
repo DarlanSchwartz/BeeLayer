@@ -17,7 +17,7 @@ export default function PaymentMethodList({ paymentMethods, onValidateClick, onS
             <MethodsContainer>
                 {
                     paymentMethods.map((method, index) => {
-                        return <PaymentMethod data={method} onValidateClick={() => onValidateClick(index)} onSelect={() => onSelectMethod(index)} />;
+                        return <PaymentMethod key={index} data={method} onValidateClick={() => onValidateClick(index)} onSelect={() => onSelectMethod(index)} />;
                     })
                 }
             </MethodsContainer>

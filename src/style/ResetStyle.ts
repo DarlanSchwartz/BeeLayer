@@ -96,6 +96,10 @@ html, body, span, applet, object, iframe,
 			border-radius: 1px;
 		}
     }
+
+    strong{
+        font-weight: 700;
+    }
 `;
 
 export default ResetStyle;

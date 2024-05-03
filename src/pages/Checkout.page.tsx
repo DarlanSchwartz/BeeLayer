@@ -6,14 +6,12 @@ import ComponentBox from '../components/ComponentBox.component';
 import { DEFAULT_NEW_CARD_DATA, DEFAULT_PAYMENT_METHODS } from '../Constants';
 import FormAddNewCard from '../components/FormAddNewCard.component';
 import { NewCardData, PaymentMethodData } from '../types';
-import ValidateCardStart from '../components/ValidateCardStart.component';
+import ValidateCard from '../components/ValidateCard.component';
 
 enum CheckoutState {
     SELECT_CARD,
     INSERT_CARD_DATA,
     VALIDATE_CARD,
-    INSERT_CARD_VALIDATION_VALUE,
-    VALIDATION_FINISH
 }
 
 
@@ -22,6 +20,7 @@ export default function PageCheckout() {
     const [currentState, setCurrentState] = useState<CheckoutState>(CheckoutState.VALIDATE_CARD);
     const [paymentMethods, setPaymentMethods] = useState<PaymentMethodData[]>(DEFAULT_PAYMENT_METHODS);
     const [formData, setFormData] = useState<NewCardData>(DEFAULT_NEW_CARD_DATA);
+    const [validatingIndex, setValidatingIndex] = useState<number | undefined>();
     function changeState(state: CheckoutState) {
         setCurrentState(state);
     }
@@ -43,8 +42,14 @@ export default function PageCheckout() {
     }
 
     function startValidation(cardIndex: number) {
-        console.log(cardIndex);
+        setValidatingIndex(cardIndex);
         setCurrentState(CheckoutState.VALIDATE_CARD);
+    }
+
+    function validateCard() {
+        if (validatingIndex !== undefined && paymentMethods[validatingIndex] !== undefined) {
+            paymentMethods[validatingIndex].isValidated = true;
+        }
     }
 
     function selectPaymentMethod(cardIndex: number) {
@@ -57,6 +62,18 @@ export default function PageCheckout() {
         }
 
         //show modal
+    }
+
+    function getCardFinalNumbers(): string {
+        return validatingIndex !== undefined ? getLastFourLetters(paymentMethods[validatingIndex].final) : "NULL";
+    }
+
+    function getLastFourLetters(input: string): string {
+        if (input.length <= 4) {
+            return input;
+        }
+
+        return input.substring(input.length - 4);
     }
 
     return (
@@ -96,7 +113,11 @@ export default function PageCheckout() {
             {
                 currentState == CheckoutState.VALIDATE_CARD &&
                 <ComponentBox style={{ minHeight: 510 }}>
-                    <ValidateCardStart backClick={() => changeState(CheckoutState.SELECT_CARD)} />
+                    <ValidateCard
+                        backClick={() => changeState(CheckoutState.SELECT_CARD)}
+                        cardFinalNumbers={getCardFinalNumbers()}
+
+                    />
                 </ComponentBox >
             }
             {/* <Modal content={<p>Teste</p>} /> */}
