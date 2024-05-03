@@ -47,6 +47,18 @@ export default function PageCheckout() {
         setCurrentState(CheckoutState.VALIDATE_CARD);
     }
 
+    function selectPaymentMethod(cardIndex: number) {
+        if (paymentMethods[cardIndex].isValidated) {
+            const methods = [...paymentMethods];
+            methods.forEach(m => m.isSelected = false);
+            methods[cardIndex].isSelected = true;
+            setPaymentMethods(methods);
+            return;
+        }
+
+        //show modal
+    }
+
     return (
         <PageDefault>
             <div style={{ height: 94 }}></div>
@@ -56,6 +68,7 @@ export default function PageCheckout() {
                     <PaymentMethodList
                         paymentMethods={paymentMethods}
                         onValidateClick={startValidation}
+                        onSelectMethod={selectPaymentMethod}
                     />
                     <AddNewCardButton style={{
                         marginTop: 20,

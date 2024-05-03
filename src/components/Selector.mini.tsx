@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { Colors } from '../style/Colors';
 
-export default function Selector({ selected }: { selected?: boolean; }) {
+export default function Selector({ selected, onClick }: { selected?: boolean; onClick?: () => void; }) {
     return (
-        <SelectorContainer>
+        <SelectorContainer onClick={onClick}>
             {selected && <SelectorContainerInside />}
         </SelectorContainer>
     );

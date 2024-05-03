@@ -6,7 +6,7 @@ export const DEFAULT_PAYMENT_METHODS = [
         ownerName: "Antonio Grudez",
         isMain: true,
         isSelected: true,
-        isValidated: false
+        isValidated: true
     },
     {
         final: "Final **** **** **** 4572",
@@ -14,7 +14,7 @@ export const DEFAULT_PAYMENT_METHODS = [
         icon: "/mastercard.svg",
         ownerName: "Antonio Grudez",
         isMain: false,
-        isSelected: true,
+        isSelected: false,
         isValidated: false
     },
     {
@@ -23,7 +23,7 @@ export const DEFAULT_PAYMENT_METHODS = [
         icon: "/visa.svg",
         ownerName: "Antonio Grudez",
         isMain: false,
-        isSelected: true,
+        isSelected: false,
         isValidated: false
     },
 ];

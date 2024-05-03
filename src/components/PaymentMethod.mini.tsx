@@ -6,7 +6,7 @@ import { TiDeleteOutline } from "react-icons/ti";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { Colors } from '../style/Colors';
 
-export default function PaymentMethod({ data, onValidateClick }: { data: PaymentMethodData; onValidateClick: () => void; }) {
+export default function PaymentMethod({ data, onValidateClick, onSelect }: { data: PaymentMethodData; onValidateClick: () => void; onSelect: () => void; }) {
     return (
         <PaymentMethodContainer>
             {
@@ -16,7 +16,7 @@ export default function PaymentMethod({ data, onValidateClick }: { data: Payment
                 </PaymentMethodContainerHeader>
             }
             <PaymentMethodContainerBody>
-                <Selector selected={data.isSelected} />
+                <Selector selected={data.isSelected} onClick={onSelect} />
                 <PaymentIconContainer>
                     <img src={data.icon} alt="" />
                 </PaymentIconContainer>
