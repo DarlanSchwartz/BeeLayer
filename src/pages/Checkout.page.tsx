@@ -22,7 +22,7 @@ enum CheckoutModal {
 }
 
 export default function PageCheckout() {
-    const [currentState, setCurrentState] = useState<CheckoutState>(CheckoutState.VALIDATE_CARD);
+    const [currentState, setCurrentState] = useState<CheckoutState>(CheckoutState.SELECT_CARD);
     const [paymentMethods, setPaymentMethods] = useState<PaymentMethodData[]>(DEFAULT_PAYMENT_METHODS);
     const [formData, setFormData] = useState<NewCardData>(DEFAULT_NEW_CARD_DATA);
     const [validatingIndex, setValidatingIndex] = useState<number | undefined>();
