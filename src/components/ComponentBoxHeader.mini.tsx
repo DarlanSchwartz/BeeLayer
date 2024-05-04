@@ -1,11 +1,27 @@
 import styled from 'styled-components';
 import { FaAngleLeft } from "react-icons/fa";
 import { Colors } from '../style/Colors';
+import React from 'react';
+import { IoClose } from "react-icons/io5";
 
-export default function ComponentBoxHeader({ title, iconClick }: { title: string; iconClick?: () => void; }) {
+type ComponentBoxHeaderProps = {
+    title: string;
+    iconClick?: () => void;
+    iconStyle?: React.CSSProperties;
+    iconType?: "left-arrow" | "close";
+};
+
+export default function ComponentBoxHeader({ title, iconClick, iconStyle, iconType }: ComponentBoxHeaderProps) {
     return (
         <PaymentMethodHeader>
-            <FaAngleLeft onClick={iconClick} className='icon' />
+            {
+                iconType !== undefined && iconType == "left-arrow" ? <FaAngleLeft onClick={iconClick} className='icon' style={iconStyle} />
+                    :
+                    iconType == "close" ?
+                        <IoClose onClick={iconClick} className='icon' style={iconStyle} />
+                        :
+                        <FaAngleLeft onClick={iconClick} className='icon' style={iconStyle} />
+            }
             <h1>{title}</h1>
         </PaymentMethodHeader>
     );
@@ -26,7 +42,6 @@ const PaymentMethodHeader = styled.div`
 
     .icon{
         position: absolute;
-        left: 0;
         top:50%;
         transform: translateY(-50%);
         color: ${Colors.main};

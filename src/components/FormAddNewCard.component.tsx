@@ -17,7 +17,7 @@ type FormAddNewCardProps = {
 export default function FormAddNewCard({ formData, setFormData, backClick, onSubmit, onCancel }: FormAddNewCardProps) {
     return (
         <SCFormAddNewCard onSubmit={(e) => onSubmit ? onSubmit(e) : undefined}>
-            <ComponentBoxHeader title='Dados do cartão' iconClick={backClick} />
+            <ComponentBoxHeader title='Dados do cartão' iconClick={backClick} iconStyle={{ left: '0' }} />
             <FormInput
                 value={formData.cardNumber}
                 setValue={(value) => setFormData({ ...formData, cardNumber: value })}

@@ -23,7 +23,7 @@ export default function ValidateCard({ backClick, cardFinalNumbers }: ValidateCa
 
     return (
         <>
-            <ComponentBoxHeader title="Valide seu Cartão" iconClick={backClick} />
+            <ComponentBoxHeader title="Valide seu Cartão" iconClick={backClick} iconStyle={{ left: '0' }} />
             <ValidateContainer>
                 {
                     currentState == ValitationState.START &&

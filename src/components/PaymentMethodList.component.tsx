@@ -13,11 +13,16 @@ type PaymentMethodListData = {
 export default function PaymentMethodList({ paymentMethods, onValidateClick, onSelectMethod }: PaymentMethodListData) {
     return (
         <>
-            <ComponentBoxHeader title='Formas de pagamento' />
+            <ComponentBoxHeader title='Formas de pagamento' iconStyle={{ left: '0' }} />
             <MethodsContainer>
                 {
                     paymentMethods.map((method, index) => {
-                        return <PaymentMethod key={index} data={method} onValidateClick={() => onValidateClick(index)} onSelect={() => onSelectMethod(index)} />;
+                        return <PaymentMethod
+                            key={index}
+                            data={method}
+                            onValidateClick={() => onValidateClick(index)}
+                            onSelect={() => onSelectMethod(index)}
+                        />;
                     })
                 }
             </MethodsContainer>
