@@ -1,7 +1,7 @@
 import axios from "axios";
 import { CardCheckDTO, CardDTO } from "./main.types";
 
-const BASE_URL = "https://api-beelirou.onrender.com/";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 function getConfig(token: string) {
     return {
