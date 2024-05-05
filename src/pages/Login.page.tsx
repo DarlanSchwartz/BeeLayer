@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PageDefault from './Default.page';
 import ComponentBox from '../components/ComponentBox.component';
 import Header from '../components/Header.component';
