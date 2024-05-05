@@ -25,7 +25,8 @@ async function login(data: LoginDTO) {
 }
 
 async function register(data: RegisterDTO) {
-    return axios.post(BASE_URL + "sing-up", data);
+    console.log(BASE_URL);
+    return axios.post(BASE_URL + "sign-up", data);
 }
 
 

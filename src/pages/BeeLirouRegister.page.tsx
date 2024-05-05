@@ -26,9 +26,9 @@ export default function PageBeeLirouRegister() {
             password: password,
         };
 
-        API.register(data).then(res => {
+
+        API.register(data).then(() => {
             navigate('/register-beelirou/success');
-            console.log(res);
             setLoading(false);
         }).catch(err => {
             console.log(err);
