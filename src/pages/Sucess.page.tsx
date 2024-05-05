@@ -5,12 +5,32 @@ import styled from 'styled-components';
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header.component';
+import { toast } from 'react-toastify';
+import SucessToast from '../components/ToastSucess.component';
 
 export default function PageSucess() {
     const timerInMs = 3000;
 
     const navigate = useNavigate();
     useEffect(() => {
+
+        toast(
+            <SucessToast />, {
+            position: "bottom-left",
+            autoClose: timerInMs,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+
+            style: {
+                background: "black",
+                width: 300
+            },
+
+        });
+
         const timeout = setTimeout(() => {
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);

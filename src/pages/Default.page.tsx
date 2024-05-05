@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Colors } from '../style/Colors';
+import { ToastContainer } from 'react-toastify';
 
 type DefaultPageProps = {
     children?: React.ReactNode;
@@ -9,6 +10,12 @@ type DefaultPageProps = {
 export default function PageDefault({ children }: DefaultPageProps) {
     return (
         <PageContainer>
+            <ToastContainer
+                style={{
+                    width: 375,
+                    height: 200,
+                }}
+            />
             {children}
         </PageContainer>
     );
