@@ -1,8 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 export default function BeeButton() {
+    const navigate = useNavigate();
     return (
-        <SCBeeButton>
+        <SCBeeButton onClick={() => navigate('/login-beelirou')}>
             <span>Conectar com Bee ID</span>
         </SCBeeButton>
     );
