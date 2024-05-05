@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PageDefault from './Default.page';
 import PaymentMethodList from '../components/PaymentMethodList.component';
 import AddNewCardButton from '../components/AddNewCardButton.component';
@@ -10,6 +10,8 @@ import ValidateCard from '../components/ValidateCard.component';
 import Modal from '../components/Modal.modal';
 import Button from '../components/Button.component';
 import Header from '../components/Header.component';
+import API from '../API';
+import { CardDTO } from '../main.types';
 
 enum CheckoutState {
     SELECT_CARD,
@@ -28,6 +30,16 @@ export default function PageCheckout() {
     const [formData, setFormData] = useState<NewCardData>(DEFAULT_NEW_CARD_DATA);
     const [validatingIndex, setValidatingIndex] = useState<number | undefined>();
     const [currentModal, setCurrentModal] = useState<CheckoutModal | undefined>();
+    const [userToken, setUserToken] = useState<string | undefined | null>();
+
+    useEffect(() => {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const token = urlParams.get('token');
+        setUserToken(token);
+
+    }, []);
+
     function changeState(state: CheckoutState) {
         setCurrentState(state);
     }
@@ -35,13 +47,14 @@ export default function PageCheckout() {
     function onAddNewCard(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const newPaymentMethod: PaymentMethodData = {
-            final: formData.cardNumber,
+            cardNumber: formData.cardNumber,
             icon: "/visa.svg",
             name: "Cartão de crédito novo",
             ownerName: formData.ownerName,
             isMain: false,
             isSelected: false,
-            isValidated: false
+            isValidated: false,
+            cpf: formData.cpf
         };
         setPaymentMethods([...paymentMethods, newPaymentMethod]);
         setFormData(DEFAULT_NEW_CARD_DATA);
@@ -53,11 +66,21 @@ export default function PageCheckout() {
         setCurrentState(CheckoutState.VALIDATE_CARD);
     }
 
-    // function validateCard() {
-    //     if (validatingIndex !== undefined && paymentMethods[validatingIndex] !== undefined) {
-    //         paymentMethods[validatingIndex].isValidated = true;
-    //     }
-    // }
+    async function validateCard() {
+
+        if (validatingIndex !== undefined && paymentMethods[validatingIndex] !== undefined && userToken) {
+            const newCard: CardDTO = {
+                cardCPF: paymentMethods[validatingIndex].cpf,
+                cardNumber: paymentMethods[validatingIndex].cardNumber,
+                userCPF: paymentMethods[validatingIndex].cpf,
+                isValid: true
+            };
+            const result = await API.registerCard(userToken, newCard);
+            console.log(result);
+            paymentMethods[validatingIndex].isValidated = true;
+            setPaymentMethods([...paymentMethods]);
+        }
+    }
 
     function selectPaymentMethod(cardIndex: number) {
         if (paymentMethods[cardIndex].isValidated) {
@@ -74,7 +97,7 @@ export default function PageCheckout() {
     }
 
     function getCardFinalNumbers(): string {
-        return validatingIndex !== undefined ? getLastFourLetters(paymentMethods[validatingIndex].final) : "NULL";
+        return validatingIndex !== undefined ? getLastFourLetters(paymentMethods[validatingIndex].cpf) : "NULL";
     }
 
     function getLastFourLetters(input: string): string {
@@ -125,7 +148,7 @@ export default function PageCheckout() {
                     <ValidateCard
                         backClick={() => changeState(CheckoutState.SELECT_CARD)}
                         cardFinalNumbers={getCardFinalNumbers()}
-
+                        onValidate={validateCard}
                     />
                 </ComponentBox >
             }

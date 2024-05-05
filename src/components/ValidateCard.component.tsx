@@ -8,6 +8,7 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 type ValidateCardStartProps = {
     backClick?: () => void;
     cardFinalNumbers: string;
+    onValidate: () => Promise<void>;
 };
 
 enum ValitationState {
@@ -18,7 +19,7 @@ enum ValitationState {
     BLOCKED
 }
 
-export default function ValidateCard({ backClick, cardFinalNumbers }: ValidateCardStartProps) {
+export default function ValidateCard({ backClick, cardFinalNumbers, onValidate }: ValidateCardStartProps) {
     const [currentState, setCurrentState] = useState<ValitationState>(ValitationState.START);
 
     return (
@@ -66,7 +67,10 @@ export default function ValidateCard({ backClick, cardFinalNumbers }: ValidateCa
                             <Button
                                 text="Validar"
                                 type="button"
-                                onClick={() => setCurrentState(ValitationState.SUCCESS)}
+                                onClick={async () => {
+                                    await onValidate();
+                                    setCurrentState(ValitationState.SUCCESS);
+                                }}
                             />
                             <Button
                                 text="Validar depois"
@@ -116,11 +120,13 @@ export default function ValidateCard({ backClick, cardFinalNumbers }: ValidateCa
                             <Button
                                 text="Voltar para o carrinho"
                                 type="button"
+                                onClick={backClick}
                             />
                             <Button
                                 text="Validar depois"
                                 type="button"
                                 style={{ marginTop: 10, marginBottom: 20 }}
+                                onClick={backClick}
                             />
                         </div>
                     </>

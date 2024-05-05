@@ -4,7 +4,8 @@ export type PaymentMethodData = {
     icon: string;
     name: string;
     ownerName: string;
-    final: string;
+    cpf: string;
+    cardNumber: string;
     isValidated?: boolean;
     isMain?: boolean;
 };

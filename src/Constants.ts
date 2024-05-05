@@ -1,27 +1,20 @@
 export const DEFAULT_PAYMENT_METHODS = [
     {
-        final: "Final **** **** **** 4572",
+        cardNumber: "1233 4568 8910 4572",
+        cpf: "12345678910",
         name: "Cartão de crédito Master",
         icon: "/mastercard.svg",
-        ownerName: "Antonio Grudez",
+        ownerName: "Fulano de Tal",
         isMain: true,
         isSelected: true,
         isValidated: true
     },
     {
-        final: "Final **** **** **** 4572",
-        name: "Cartão de crédito Master",
-        icon: "/mastercard.svg",
-        ownerName: "Antonio Grudez",
-        isMain: false,
-        isSelected: false,
-        isValidated: false
-    },
-    {
-        final: "Final **** **** **** 4572",
-        name: "Cartão de crédito Master",
+        cardNumber: "1233 4568 8910 4572",
+        cpf: "12345678910",
+        name: "Cartão de crédito Vista",
         icon: "/visa.svg",
-        ownerName: "Antonio Grudez",
+        ownerName: "Beltrano",
         isMain: false,
         isSelected: false,
         isValidated: false

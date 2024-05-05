@@ -25,7 +25,7 @@ export default function PaymentMethod({ data, onValidateClick, onSelect }: { dat
                     <CardDataText>
                         <p style={{ fontWeight: '600' }}>{data.name}</p>
                         <p>{data.ownerName}</p>
-                        <p>{data.final}</p>
+                        <p>Final {data.cardNumber}</p>
                     </CardDataText>
                 </CardDataContainer>
                 <PaymentMethodActions>
