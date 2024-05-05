@@ -9,7 +9,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/checkout' element={<PageCheckout />} />
-        <Route path='/login' element={<PageLogin />} />
+        <Route path='/' element={<PageLogin />} />
         <Route path='/success' element={<PageSucess />} />
       </Routes>
     </BrowserRouter>
