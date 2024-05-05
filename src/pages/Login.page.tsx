@@ -28,9 +28,9 @@ export default function PageLogin() {
                         value={email}
                         setValue={(value) => setEmail(value)}
                         type='text'
-                        id='email'
-                        label='E-MAIL'
-                        placeholder='Digite seu e-mail'
+                        id='password'
+                        label='SENHA'
+                        placeholder='Digite sua senha'
                     />
                     <Button
                         text='Entrar'
