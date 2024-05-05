@@ -13,3 +13,15 @@ export type CardCheckDTO = {
     cardCPF: string;
     userCPF: string;
 };
+
+
+export type LoginDTO = {
+    cpf: string;
+    password: string;
+};
+
+export type RegisterDTO = {
+    cpf: string;
+    password: string;
+    email: string;
+};
