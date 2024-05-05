@@ -1,0 +1,8 @@
+CREATE TABLE cards(
+    "cpf" VARCHAR(15) NOT NULL,
+    "walleAddress" TEXT NOT NULL,
+    "type" VARCHAR(10) NOT NULL,
+    "hash" TEXT NOT NULL,
+    "validUntil" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+

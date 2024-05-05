@@ -66,7 +66,7 @@ export default function ValidateCard({ backClick, cardFinalNumbers }: ValidateCa
                             <Button
                                 text="Validar"
                                 type="button"
-                                onClick={() => setCurrentState(ValitationState.BLOCKED)}
+                                onClick={() => setCurrentState(ValitationState.SUCCESS)}
                             />
                             <Button
                                 text="Validar depois"

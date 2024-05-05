@@ -9,6 +9,7 @@ import { NewCardData, PaymentMethodData } from '../types';
 import ValidateCard from '../components/ValidateCard.component';
 import Modal from '../components/Modal.modal';
 import Button from '../components/Button.component';
+import Header from '../components/Header.component';
 
 enum CheckoutState {
     SELECT_CARD,
@@ -86,10 +87,10 @@ export default function PageCheckout() {
 
     return (
         <PageDefault>
-            <div style={{ height: 94 }}></div>
+            <Header />
             {
                 currentState == CheckoutState.SELECT_CARD &&
-                <ComponentBox style={{ height: 510 }}>
+                <ComponentBox style={{ height: 600 }}>
                     <PaymentMethodList
                         paymentMethods={paymentMethods}
                         onValidateClick={startValidation}
@@ -105,7 +106,7 @@ export default function PageCheckout() {
             }
             {
                 currentState == CheckoutState.INSERT_CARD_DATA &&
-                <ComponentBox style={{ height: 510 }}>
+                <ComponentBox style={{ height: 600 }}>
                     <FormAddNewCard
                         formData={formData}
                         setFormData={(data) => setFormData(data)}
@@ -120,7 +121,7 @@ export default function PageCheckout() {
             }
             {
                 currentState == CheckoutState.VALIDATE_CARD &&
-                <ComponentBox style={{ minHeight: 510 }}>
+                <ComponentBox style={{ minHeight: 600 }}>
                     <ValidateCard
                         backClick={() => changeState(CheckoutState.SELECT_CARD)}
                         cardFinalNumbers={getCardFinalNumbers()}
