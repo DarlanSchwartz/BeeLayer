@@ -8,12 +8,13 @@ type ButtonProps = {
     enabled?: boolean;
     type?: "submit" | "reset" | "button";
     style?: React.CSSProperties;
+    loading?: boolean;
 
 };
-export default function Button({ text, ...props }: ButtonProps) {
+export default function Button({ text, loading, ...props }: ButtonProps) {
     return (
-        <SCButton {...props}>
-            <span> {text}</span>
+        <SCButton {...props} disabled={loading}>
+            {loading ? "Loading..." : <span> {text}</span>}
         </SCButton>
     );
 }
@@ -31,9 +32,15 @@ const SCButton = styled.button`
     justify-content: center;
     border-radius: 20px;
     height: 40px;
-    &:hover{
-        border: 1px solid ${Colors.main};
-        background-color: white;
-        color:${Colors.main};
+    &:enabled{
+            &:hover{
+                border: 1px solid ${Colors.main};
+                background-color: white;
+                color:${Colors.main};
+            }
+    }
+
+    &:disabled{
+        opacity: 0.5;
     }
 `;

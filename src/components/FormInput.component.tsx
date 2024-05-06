@@ -11,9 +11,10 @@ type FormInputProps = {
     minLenght?: number;
     id?: string;
     name?: string;
+    loading?: boolean;
 };
 
-export default function FormInput({ value, setValue, label, id, ...rest }: FormInputProps) {
+export default function FormInput({ value, setValue, label, id, loading, ...rest }: FormInputProps) {
     return (
         <InputContainer>
             <label htmlFor={id}>{label}</label>
@@ -21,6 +22,7 @@ export default function FormInput({ value, setValue, label, id, ...rest }: FormI
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 {...rest}
+                disabled={loading}
             />
         </InputContainer>
     );
@@ -49,4 +51,9 @@ const SCInput = styled.input`
     padding-left: 20px;
     padding-right: 20px;
     color:black;
+
+    &:disabled{
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
 `;

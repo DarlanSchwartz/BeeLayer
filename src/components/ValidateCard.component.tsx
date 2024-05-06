@@ -9,6 +9,7 @@ type ValidateCardStartProps = {
     backClick?: () => void;
     cardFinalNumbers: string;
     onValidate: () => Promise<void>;
+    loading: boolean;
 };
 
 enum ValitationState {
@@ -19,7 +20,7 @@ enum ValitationState {
     BLOCKED
 }
 
-export default function ValidateCard({ backClick, cardFinalNumbers, onValidate }: ValidateCardStartProps) {
+export default function ValidateCard({ backClick, cardFinalNumbers, onValidate, loading }: ValidateCardStartProps) {
     const [currentState, setCurrentState] = useState<ValitationState>(ValitationState.START);
 
     return (
@@ -38,12 +39,14 @@ export default function ValidateCard({ backClick, cardFinalNumbers, onValidate }
                             <Button
                                 text="Validar"
                                 type="button"
+                                loading={loading}
                                 onClick={() => setCurrentState(ValitationState.INPUT_CONFIRMATION_VALUE)}
                             />
                             <Button
                                 text="Validar depois"
                                 type="button"
                                 onClick={backClick}
+                                loading={loading}
                                 style={{ marginTop: 10, marginBottom: 20 }}
                             />
                         </div>
@@ -59,12 +62,13 @@ export default function ValidateCard({ backClick, cardFinalNumbers, onValidate }
                         </MainContent>
                         <InputContainer>
                             <p>Digite o valor cobrado de seu cartão.</p>
-                            <input type="text" name="" id="" placeholder="R$  0,00" />
+                            <input type="text" name="" id="" placeholder="R$  0,00" disabled={loading} />
                             <a>Pagar com pix</a>
                         </InputContainer>
 
                         <div style={{ width: '100%' }}>
                             <Button
+                                loading={loading}
                                 text="Validar"
                                 type="button"
                                 onClick={async () => {
@@ -73,6 +77,7 @@ export default function ValidateCard({ backClick, cardFinalNumbers, onValidate }
                                 }}
                             />
                             <Button
+                                loading={loading}
                                 text="Validar depois"
                                 type="button"
                                 onClick={backClick}
@@ -95,11 +100,13 @@ export default function ValidateCard({ backClick, cardFinalNumbers, onValidate }
 
                         <div style={{ width: '100%' }}>
                             <Button
+                                loading={loading}
                                 text="Tentar novamente"
                                 type="button"
                                 onClick={() => setCurrentState(ValitationState.INPUT_CONFIRMATION_VALUE)}
                             />
                             <Button
+                                loading={loading}
                                 text="Validar depois"
                                 type="button"
                                 onClick={backClick}
@@ -118,11 +125,13 @@ export default function ValidateCard({ backClick, cardFinalNumbers, onValidate }
                         </MainContent>
                         <div style={{ width: '100%' }}>
                             <Button
+                                loading={loading}
                                 text="Voltar para o carrinho"
                                 type="button"
                                 onClick={backClick}
                             />
                             <Button
+                                loading={loading}
                                 text="Validar depois"
                                 type="button"
                                 style={{ marginTop: 10, marginBottom: 20 }}
@@ -145,6 +154,7 @@ export default function ValidateCard({ backClick, cardFinalNumbers, onValidate }
 
                         <div style={{ width: '100%' }}>
                             <Button
+                                loading={loading}
                                 text="Voltar para a loja"
                                 type="button"
                                 onClick={backClick}
@@ -177,6 +187,10 @@ const InputContainer = styled.div`
         text-align: center;
         font-size: 20px;
         letter-spacing: 2px;
+        &:disabled{
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     }
 
     a{

@@ -12,9 +12,10 @@ type FormAddNewCardProps = {
     backClick?: () => void;
     onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
     onCancel?: () => void;
+    loading: boolean;
 };
 
-export default function FormAddNewCard({ formData, setFormData, backClick, onSubmit, onCancel }: FormAddNewCardProps) {
+export default function FormAddNewCard({ formData, setFormData, backClick, onSubmit, onCancel, loading }: FormAddNewCardProps) {
     return (
         <SCFormAddNewCard onSubmit={(e) => onSubmit ? onSubmit(e) : undefined}>
             <ComponentBoxHeader title='Dados do cartão' iconClick={backClick} iconStyle={{ left: '0' }} />
@@ -25,6 +26,7 @@ export default function FormAddNewCard({ formData, setFormData, backClick, onSub
                 id='cardNumber'
                 label='NÚMERO DO CARTÃO'
                 placeholder='1111 2222 3333 4444'
+                loading={loading}
             />
             <FormInput
                 value={formData.ownerName}
@@ -33,6 +35,7 @@ export default function FormAddNewCard({ formData, setFormData, backClick, onSub
                 id='cardOwnerName'
                 label='NOME CONFORME IMPRESSO NO CARTÃO'
                 placeholder='Barbara Silveira'
+                loading={loading}
             />
             <DoubleInputContainer>
                 <FormInput
@@ -42,6 +45,7 @@ export default function FormAddNewCard({ formData, setFormData, backClick, onSub
                     id='validTru'
                     label='VALIDADE'
                     placeholder='11/27'
+                    loading={loading}
                 />
                 <FormInput
                     value={formData.cvv}
@@ -49,7 +53,8 @@ export default function FormAddNewCard({ formData, setFormData, backClick, onSub
                     type='number'
                     id='cvv'
                     label='CVV'
-                    placeholder='11/27'
+                    placeholder='123'
+                    loading={loading}
                 />
 
             </DoubleInputContainer>
@@ -60,15 +65,18 @@ export default function FormAddNewCard({ formData, setFormData, backClick, onSub
                 id='cpf'
                 label='CPF DO TITULAR'
                 placeholder='123.453.789-12'
+                loading={loading}
             />
             <span className='security-reason'>Por questão de segurança, dê preferências por cartão da sua própria titularidade.</span>
             <Button
                 text='Salvar'
                 type="submit"
+                loading={loading}
             />
             <Button
                 text='Cancelar'
                 type="button"
+                loading={loading}
                 style={{ marginBottom: 20 }}
                 onClick={onCancel}
             />

@@ -28,6 +28,8 @@ export default function PageCheckout() {
     const [currentState, setCurrentState] = useState<CheckoutState>(CheckoutState.SELECT_CARD);
     const [paymentMethods, setPaymentMethods] = useState<PaymentMethodData[]>(DEFAULT_PAYMENT_METHODS);
     const [formData, setFormData] = useState<NewCardData>(DEFAULT_NEW_CARD_DATA);
+    const [loadingCheck, setLoadingCheck] = useState<boolean>(false);
+    const [loadingRegister, setLoadingRegister] = useState<boolean>(false);
     const [validatingIndex, setValidatingIndex] = useState<number | undefined>();
     const [currentModal, setCurrentModal] = useState<CheckoutModal | undefined>();
     const [userToken, setUserToken] = useState<string | undefined | null>();
@@ -44,8 +46,11 @@ export default function PageCheckout() {
         setCurrentState(state);
     }
 
-    function onAddNewCard(e: React.FormEvent<HTMLFormElement>) {
+    async function onAddNewCard(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+
+        if (!userToken) return;
+
         const newPaymentMethod: PaymentMethodData = {
             cardNumber: formData.cardNumber,
             icon: "/visa.svg",
@@ -56,6 +61,20 @@ export default function PageCheckout() {
             isValidated: false,
             cpf: formData.cpf
         };
+
+        const dataCheck = {
+            cardCPF: formData.cpf,
+            cardNumber: formData.cardNumber,
+            userCPF: formData.cpf
+        };
+        setLoadingCheck(true);
+        const result = await API.checkCard(userToken, dataCheck);
+        setLoadingCheck(false);
+
+        if (result.data.isValid) {
+            newPaymentMethod.isValidated = true;
+        }
+
         setPaymentMethods([...paymentMethods, newPaymentMethod]);
         setFormData(DEFAULT_NEW_CARD_DATA);
         changeState(CheckoutState.SELECT_CARD);
@@ -75,7 +94,9 @@ export default function PageCheckout() {
                 userCPF: paymentMethods[validatingIndex].cpf,
                 isValid: true
             };
+            setLoadingRegister(true);
             const result = await API.registerCard(userToken, newCard);
+            setLoadingRegister(false);
             console.log(result);
             paymentMethods[validatingIndex].isValidated = true;
             setPaymentMethods([...paymentMethods]);
@@ -135,6 +156,7 @@ export default function PageCheckout() {
                         setFormData={(data) => setFormData(data)}
                         backClick={() => changeState(CheckoutState.SELECT_CARD)}
                         onSubmit={onAddNewCard}
+                        loading={loadingCheck}
                         onCancel={() => {
                             changeState(CheckoutState.SELECT_CARD);
                             setFormData(DEFAULT_NEW_CARD_DATA);
@@ -149,6 +171,7 @@ export default function PageCheckout() {
                         backClick={() => changeState(CheckoutState.SELECT_CARD)}
                         cardFinalNumbers={getCardFinalNumbers()}
                         onValidate={validateCard}
+                        loading={loadingRegister}
                     />
                 </ComponentBox >
             }
