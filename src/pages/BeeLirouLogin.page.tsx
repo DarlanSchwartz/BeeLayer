@@ -7,6 +7,9 @@ import BeeAuthButton from "../components/BeeAuthButton.component";
 import { LoginDTO } from "../main.types";
 import API from "../API";
 import { useNavigate } from "react-router-dom";
+import { clearSymbols, formatCPF, showMessage } from "../Utils";
+import SucessToast from "../components/ToastSucess.component";
+import { AxiosError } from "axios";
 
 export default function PageBeeLirouLogin() {
 
@@ -17,17 +20,21 @@ export default function PageBeeLirouLogin() {
     function login() {
         setLoading(true);
         const data: LoginDTO = {
-            cpf: cpf,
+            cpf: clearSymbols(cpf),
             password: password,
         };
+
+        console.log(data);
 
         API.login(data).then(res => {
             navigate(`/success?token=${res.data.token}`);
             console.log(res);
             setLoading(false);
-        }).catch(err => {
+        }).catch((err: AxiosError) => {
             console.log(err);
             setLoading(false);
+            const message = err.status == 400 ? "Conta não existe" : "Desconhecido";
+            showMessage(<SucessToast message="Erro" submessage={message} />, true);
         });
     }
     return (
@@ -44,9 +51,10 @@ export default function PageBeeLirouLogin() {
                         name="cpf"
                         type="text"
                         placeholder="CPF"
-                        value={cpf}
-                        setValue={(e) => setCPF(e)}
+                        value={formatCPF(cpf)}
+                        setValue={(e) => setCPF(formatCPF(e))}
                         loading={loading}
+                        $maxLength={14}
                     />
                     <BeeLirouLoginInput
                         name="password"

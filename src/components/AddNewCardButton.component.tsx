@@ -26,4 +26,10 @@ const SCAddNewCardButton = styled.button`
     border: 0;
     height: 40px;
     font-size: 14px;
+
+    &:hover{
+        *{
+            opacity: 0.5;
+        }
+    }
 `;

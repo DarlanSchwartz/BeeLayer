@@ -8,9 +8,10 @@ type InputProps = {
     name: string;
     placeholder: string;
     loading?: boolean;
+    $maxLength?: number;
 };
 
-export default function BeeLirouLoginInput({ loading, value, setValue, placeholder, name, type }: InputProps) {
+export default function BeeLirouLoginInput({ loading, value, setValue, placeholder, name, type, $maxLength }: InputProps) {
     return (
         <SCInput
             type={type}
@@ -20,6 +21,7 @@ export default function BeeLirouLoginInput({ loading, value, setValue, placehold
             value={value}
             onChange={(e) => setValue(e.target.value)}
             disabled={loading}
+            maxLength={$maxLength}
         />
     );
 }

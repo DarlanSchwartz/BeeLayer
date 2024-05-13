@@ -5,6 +5,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { TiDeleteOutline } from "react-icons/ti";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { Colors } from '../style/Colors';
+import { maskCardNumber } from '../Utils';
 
 export default function PaymentMethod({ data, onValidateClick, onSelect }: { data: PaymentMethodData; onValidateClick: () => void; onSelect: () => void; }) {
     return (
@@ -25,7 +26,7 @@ export default function PaymentMethod({ data, onValidateClick, onSelect }: { dat
                     <CardDataText>
                         <p style={{ fontWeight: '600' }}>{data.name}</p>
                         <p>{data.ownerName}</p>
-                        <p>Final {data.cardNumber}</p>
+                        <p>Final {maskCardNumber(data.cardNumber)}</p>
                     </CardDataText>
                 </CardDataContainer>
                 <PaymentMethodActions>

@@ -7,6 +7,9 @@ import BeeAuthButton from "../components/BeeAuthButton.component";
 import { RegisterDTO } from "../main.types";
 import API from "../API";
 import { useNavigate } from "react-router-dom";
+import { clearSymbols, formatCPF, showMessage } from "../Utils";
+import { AxiosError } from "axios";
+import SucessToast from "../components/ToastSucess.component";
 
 export default function PageBeeLirouRegister() {
 
@@ -21,7 +24,7 @@ export default function PageBeeLirouRegister() {
     function register() {
         setLoading(true);
         const data: RegisterDTO = {
-            cpf: cpf,
+            cpf: clearSymbols(cpf),
             email: email,
             password: password,
         };
@@ -30,8 +33,9 @@ export default function PageBeeLirouRegister() {
         API.register(data).then(() => {
             navigate('/register-beelirou/success');
             setLoading(false);
-        }).catch(err => {
-            console.log(err);
+        }).catch((err: AxiosError) => {
+            console.log(err.response?.data);
+            showMessage(<SucessToast message={`Erro ${err.response?.status}`} submessage={err.response?.data as string || ""} />, true);
             setLoading(false);
         });
     }
@@ -62,9 +66,10 @@ export default function PageBeeLirouRegister() {
                         name="cpf"
                         type="text"
                         placeholder="CPF"
-                        value={cpf}
-                        setValue={(e) => setCPF(e)}
+                        value={formatCPF(cpf)}
+                        setValue={(e) => setCPF(formatCPF(e))}
                         loading={loading}
+                        $maxLength={14}
                     />
                     <BeeLirouLoginInput
                         name="password"
@@ -85,15 +90,15 @@ export default function PageBeeLirouRegister() {
 
                     <InputTogglesContainer>
                         <InputToggle>
-                            <input type="checkbox" />
+                            <input type="checkbox" disabled={loading} />
                             <span>Concordo com Termos de Uso e Política de Privacidade</span>
                         </InputToggle>
                         <InputToggle>
-                            <input type="checkbox" />
+                            <input type="checkbox" disabled={loading} />
                             <span>Compartilhar <strong>CPF</strong></span>
                         </InputToggle>
                         <InputToggle>
-                            <input type="checkbox" />
+                            <input type="checkbox" disabled={loading} />
                             <span>Compartilhar <strong>e-mail</strong></span>
                         </InputToggle>
                     </InputTogglesContainer>
@@ -141,6 +146,11 @@ const InputToggle = styled.div`
         width: 15px;
         height: 15px;
         flex-shrink: 0;
+
+        &:disabled{
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     }
 `;
 

@@ -8,7 +8,7 @@ import { IoIosCheckmarkCircle } from "react-icons/io";
 type ValidateCardStartProps = {
     backClick?: () => void;
     cardFinalNumbers: string;
-    onValidate: () => Promise<void>;
+    onValidate: () => Promise<boolean>;
     loading: boolean;
 };
 
@@ -72,8 +72,10 @@ export default function ValidateCard({ backClick, cardFinalNumbers, onValidate, 
                                 text="Validar"
                                 type="button"
                                 onClick={async () => {
-                                    await onValidate();
-                                    setCurrentState(ValitationState.SUCCESS);
+                                    const success = await onValidate();
+                                    if (success) {
+                                        setCurrentState(ValitationState.SUCCESS);
+                                    }
                                 }}
                             />
                             <Button
@@ -121,7 +123,7 @@ export default function ValidateCard({ backClick, cardFinalNumbers, onValidate, 
                         <MainContent>
                             <IoIosCheckmarkCircle style={{ color: "green", fontSize: "60" }} />
                             <p><strong>Tudo Certo</strong></p>
-                            <p style={{ color: "green" }}><strong>Seu cartão foi validado! Agora você pode consumir seus Bizuus sem limite de compra. </strong></p>
+                            <p style={{ color: "green" }}><strong>Seu cartão foi validado!</strong></p>
                         </MainContent>
                         <div style={{ width: '100%' }}>
                             <Button

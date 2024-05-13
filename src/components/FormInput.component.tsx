@@ -7,22 +7,25 @@ type FormInputProps = {
     placeholder?: string;
     label?: string;
     type?: string;
-    maxLenght?: number;
     minLenght?: number;
     id?: string;
     name?: string;
     loading?: boolean;
+    $maxLength?: number;
 };
 
-export default function FormInput({ value, setValue, label, id, loading, ...rest }: FormInputProps) {
+export default function FormInput({ value, setValue, label, id, loading, $maxLength, ...rest }: FormInputProps) {
     return (
         <InputContainer>
             <label htmlFor={id}>{label}</label>
             <SCInput
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
-                {...rest}
                 disabled={loading}
+                maxLength={$maxLength}
+                {...rest}
+
+
             />
         </InputContainer>
     );

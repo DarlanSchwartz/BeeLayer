@@ -1,13 +1,18 @@
 import styled from 'styled-components';
 
-export default function SucessToast() {
+type SucessToastProps = {
+    message: string;
+    submessage: string;
+};
+
+export default function SucessToast({ message, submessage }: SucessToastProps) {
     return (
         <SCSucessToastContainer>
             <img className='bg' src="/bee-bt-bg.png" alt="" />
             <img src="/ok.png" alt="" />
             <MiddleContentContainer>
-                <span>Conectado com Bee Layer</span>
-                <p>Autenticado com sucesso</p>
+                <span>{message}</span>
+                <p>{submessage}</p>
             </MiddleContentContainer>
         </SCSucessToastContainer>
     );

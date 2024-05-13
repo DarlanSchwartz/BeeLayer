@@ -12,6 +12,9 @@ import Button from '../components/Button.component';
 import Header from '../components/Header.component';
 import API from '../API';
 import { CardDTO } from '../main.types';
+import { AxiosError } from 'axios';
+import { clearSymbols, showMessage } from '../Utils';
+import SucessToast from '../components/ToastSucess.component';
 
 enum CheckoutState {
     SELECT_CARD,
@@ -52,20 +55,20 @@ export default function PageCheckout() {
         if (!userToken) return;
 
         const newPaymentMethod: PaymentMethodData = {
-            cardNumber: formData.cardNumber,
+            cardNumber: clearSymbols(formData.cardNumber),
             icon: "/visa.svg",
             name: "Cartão de crédito novo",
             ownerName: formData.ownerName,
             isMain: false,
             isSelected: false,
             isValidated: false,
-            cpf: formData.cpf
+            cpf: clearSymbols(formData.cpf)
         };
 
         const dataCheck = {
-            cardCPF: formData.cpf,
-            cardNumber: formData.cardNumber,
-            userCPF: formData.cpf
+            cardCPF: clearSymbols(formData.cpf),
+            cardNumber: clearSymbols(formData.cardNumber),
+            userCPF: clearSymbols(formData.cpf)
         };
         setLoadingCheck(true);
         const result = await API.checkCard(userToken, dataCheck);
@@ -89,18 +92,30 @@ export default function PageCheckout() {
 
         if (validatingIndex !== undefined && paymentMethods[validatingIndex] !== undefined && userToken) {
             const newCard: CardDTO = {
-                cardCPF: paymentMethods[validatingIndex].cpf,
-                cardNumber: paymentMethods[validatingIndex].cardNumber,
-                userCPF: paymentMethods[validatingIndex].cpf,
+                cardCPF: clearSymbols(paymentMethods[validatingIndex].cpf),
+                cardNumber: clearSymbols(paymentMethods[validatingIndex].cardNumber),
+                userCPF: clearSymbols(paymentMethods[validatingIndex].cpf),
                 isValid: true
             };
             setLoadingRegister(true);
-            const result = await API.registerCard(userToken, newCard);
-            setLoadingRegister(false);
-            console.log(result);
-            paymentMethods[validatingIndex].isValidated = true;
-            setPaymentMethods([...paymentMethods]);
+
+            try {
+                await API.registerCard(userToken, newCard);
+                paymentMethods[validatingIndex].isValidated = true;
+                setPaymentMethods([...paymentMethods]);
+                return true;
+            } catch (err) {
+                const error = err as AxiosError;
+                showMessage(<SucessToast message={`Erro ${error.response?.status}`} submessage={error.response?.data as string || ""} />, true);
+                return false;
+            }
+            finally {
+                setLoadingRegister(false);
+
+            }
         }
+
+        return false;
     }
 
     function selectPaymentMethod(cardIndex: number) {
@@ -118,7 +133,7 @@ export default function PageCheckout() {
     }
 
     function getCardFinalNumbers(): string {
-        return validatingIndex !== undefined ? getLastFourLetters(paymentMethods[validatingIndex].cpf) : "NULL";
+        return validatingIndex !== undefined ? getLastFourLetters(clearSymbols(paymentMethods[validatingIndex].cardNumber)) : "NULL";
     }
 
     function getLastFourLetters(input: string): string {

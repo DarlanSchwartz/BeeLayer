@@ -11,6 +11,7 @@ import { Colors } from '../style/Colors';
 
 export default function PageLogin() {
     const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     return (
         <PageDefault>
             <Header />
@@ -25,9 +26,9 @@ export default function PageLogin() {
                         placeholder='Digite seu e-mail'
                     />
                     <FormInput
-                        value={email}
-                        setValue={(value) => setEmail(value)}
-                        type='text'
+                        value={password}
+                        setValue={(value) => setPassword(value)}
+                        type='password'
                         id='password'
                         label='SENHA'
                         placeholder='Digite sua senha'
