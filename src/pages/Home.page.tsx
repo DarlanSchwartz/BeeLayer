@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { Colors } from '../style/Colors';
 import { Wallet, getWallets } from '@talismn/connect-wallets';
@@ -18,7 +17,7 @@ const MyWalletSelector = () => {
                             onClick={async () => {
                                 try {
                                     await wallet.enable(DAPP_NAME);
-                                    const unsubscribe = await wallet.subscribeAccounts((accounts) => {
+                                    await wallet.subscribeAccounts((accounts) => {
                                         console.log(accounts);
                                         // Save accounts...
                                         // Also save the selected wallet name as well...
